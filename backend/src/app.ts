@@ -1,10 +1,17 @@
 import express from "express";
 import { pool } from "./config/database.js";
+import httpLogger from "./middleware/httpLogger.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 
+//middlewares
+app.use(httpLogger);
+app.use(express.json());
+
+//routes
 app.get("/", (_req, res) => {
-    res.send("Welcom to url-shortener api");
+    res.send("Welcome to url-shortener api");
 });
 
 app.get("/health", async (_req, res) => {
@@ -27,5 +34,8 @@ app.get("/health", async (_req, res) => {
         });
     }
 });
+
+//error handler
+app.use(errorHandler);
 
 export default app;
