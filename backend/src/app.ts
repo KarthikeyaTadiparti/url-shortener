@@ -2,6 +2,7 @@ import express from "express";
 import { pool } from "./config/database.js";
 import httpLogger from "./middleware/httpLogger.js";
 import errorHandler from "./middleware/errorHandler.js";
+import urlRouter from "./modules/url-creation/url-creation.routes.js";
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(express.json());
 app.get("/", (_req, res) => {
     res.send("Welcome to url-shortener api");
 });
+
+app.use("/urls", urlRouter);
 
 app.get("/health", async (_req, res) => {
     try {

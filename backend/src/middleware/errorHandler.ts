@@ -1,6 +1,7 @@
 import type { ErrorRequestHandler } from "express";
 import type { Request, Response, NextFunction } from "express";
 import AppError from "../utils/appError.js";
+import { ZodError } from "zod";
 
 const errorHandler: ErrorRequestHandler = (
     err: Error,
@@ -21,6 +22,20 @@ const errorHandler: ErrorRequestHandler = (
             success: false,
             message: err.message,
             requestId: req.id,
+        });
+    }
+
+    if (err instanceof ZodError) {
+        // Validation error
+        req.log.warn({ err, statusCode: 400 }, "Validation error");
+
+        return res.status(400).json({
+            success: false,
+            message: "Validation failed",
+            errors: err.issues.map((issue) => ({
+                field: issue.path.join("."),
+                message: issue.message,
+            })),
         });
     }
 

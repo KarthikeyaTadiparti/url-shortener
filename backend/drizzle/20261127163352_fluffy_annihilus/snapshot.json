@@ -1,0 +1,48 @@
+{
+  "type": "diff",
+  "version": "10",
+  "dialect": "postgres",
+  "id": "bae89be1-c6da-4c85-b28d-37b6c922b48f",
+  "prevIds": [
+    "2226a6d0-fa12-4cb4-b05e-8c563514d4ab"
+  ],
+  "footprints": [
+    {
+      "statementType": "alter_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "urls",
+        "id"
+      ],
+      "writes": [
+        "s|colprop|public.urls.id.identity",
+        "s|colprop|public.urls.id.default",
+        "s|colprop|public.urls.id.notNull"
+      ],
+      "reads": [
+        "n|tbl|public.urls",
+        "n|sch|public",
+        "n|col|public.urls.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "alter",
+      "key": "columns\u0000[\"public\",\"urls\",\"id\"]",
+      "set": {
+        "identity": {
+          "type": "byDefault",
+          "name": "urls_id_seq",
+          "increment": "1",
+          "startWith": "1",
+          "minValue": "1",
+          "maxValue": "2147483647",
+          "cache": 1,
+          "cycle": false
+        }
+      }
+    }
+  ]
+}
