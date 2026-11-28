@@ -2,7 +2,7 @@ import express from "express";
 import { pool } from "./config/database.js";
 import httpLogger from "./middleware/httpLogger.js";
 import errorHandler from "./middleware/errorHandler.js";
-import urlRouter from "./modules/url-creation/url-creation.routes.js";
+import urlRouter from "./modules/urls/urls.routes.js";
 
 const app = express();
 

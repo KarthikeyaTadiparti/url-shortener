@@ -1,12 +1,15 @@
 import type { RequestHandler } from "express";
-import z from "zod";
+import type { z } from "zod";
 
-const validate = (schema: z.ZodType): RequestHandler=> {
+type RequestSource = "body" | "params" | "query";
+
+const validate = (schema: z.ZodType, source: RequestSource = "body"): RequestHandler => {
     return (req, res, next) => {
-        const result = schema.safeParse(req.body);
+        const result = schema.safeParse(req[source]);
 
-        if(!result.success)
+        if (!result.success) {
             return next(result.error);
+        }
 
         next();
     };

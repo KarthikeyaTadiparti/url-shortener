@@ -1,6 +1,7 @@
+import AppError from "../../utils/appError.js";
 import encodeShortCode from "../../utils/encodeShortCode.js";
-import UrlRepository from "./url-creation.repository.js";
-import type { createUrlType } from "./url-creation.types.js";
+import UrlRepository from "./urls.repository.js";
+import type { createUrlType } from "./urls.types.js";
 
 class UrlService {
     async createUrl(body: createUrlType) {
@@ -16,6 +17,16 @@ class UrlService {
         const createdUrl = await UrlRepository.insertUrl(id, originalUrl, shortCode);
 
         return createdUrl;
+    }
+
+    async fetchOriginalUrl(shortCode: string) {
+        const originalUrl = await UrlRepository.getOriginalUrl(shortCode);
+
+        if (!originalUrl) {
+            throw new AppError("Short URL not found", 404);
+        }
+
+        return originalUrl;
     }
 }
 

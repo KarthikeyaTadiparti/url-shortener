@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "../../config/database.js";
 import { urlsTable } from "../../schema/urls.js";
 import AppError from "../../utils/appError.js";
@@ -25,6 +25,18 @@ class UrlRepository {
         }
 
         return createdUrl;
+    }
+
+    async getOriginalUrl(shortCode: string) {
+        console.log("Searching for:", shortCode);
+        const [result] = await db
+            .select({ originalUrl: urlsTable.original_url })
+            .from(urlsTable)
+            .where(eq(urlsTable.short_code, shortCode));
+
+        console.log("Query result:", result);
+
+        return result?.originalUrl;
     }
 }
 
