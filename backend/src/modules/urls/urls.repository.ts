@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 import { db } from "../../config/database.js";
 import { urlsTable } from "../../schema/urls.js";
-import AppError from "../../utils/appError.js";
+import AppError from "../../utils/AppError.js";
 
 class UrlRepository {
     async getNextId(): Promise<number> {
@@ -27,14 +27,11 @@ class UrlRepository {
         return createdUrl;
     }
 
-    async getOriginalUrl(shortCode: string) {
-        console.log("Searching for:", shortCode);
+    async getOriginalUrl(shortCode: string): Promise<string | undefined> {
         const [result] = await db
             .select({ originalUrl: urlsTable.original_url })
             .from(urlsTable)
             .where(eq(urlsTable.short_code, shortCode));
-
-        console.log("Query result:", result);
 
         return result?.originalUrl;
     }
